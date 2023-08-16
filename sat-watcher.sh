@@ -1,6 +1,16 @@
 #!/bin/bash
 
+# Now i write a python program to get the passing time via the n2yo REST api and then we redirect the time to a at command which runs the cli satdump
+
 function install_debian() {
+	install_satdump_debian
+}
+
+function install_rh() {
+	install_satdump_rh
+}
+
+function install_satdump_debian() {
 	local debian_deps="build-essential cmake g++ pkgconf libfftw3-dev "\ 
 										"libvolk2-dev libpng-dev libluajit-5.1-dev libnng-dev "\
 										"librtlsdr-dev libhackrf-dev libairspy-dev libairspyhf-dev "\
@@ -8,7 +18,7 @@ function install_debian() {
 	sudo apt install $debian_deps -y && build_satdump
 }
 
-function install_rh() {
+function install_satdump_rh() {
 	local rh_deps="git cmake g++ fftw-devel volk-devel libpng-devel luajit-devel \
 	  						nng-devel rtl-sdr-devel hackrf-devel airspyone_host-devel glew-devel \
 								glfw-devel libzstd-devel ocl-icd"
