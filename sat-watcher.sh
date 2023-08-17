@@ -4,10 +4,12 @@
 
 function install_debian() {
 	install_satdump_debian
+	setup
 }
 
 function install_rh() {
 	install_satdump_rh
+	setup
 }
 
 function install_satdump_debian() {
@@ -35,6 +37,11 @@ function build_satdump() {
 	ln -s ../resources .
 	ln -s ../satdump_cfg.json .
 	sudo make install
+}
+
+# Distribution independent setup routine
+function setup() {
+	setup_cron
 }
 
 function setup_cron() {
