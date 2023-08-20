@@ -8,23 +8,36 @@ alt = 0
 
 METEOR_M2_3_ID = 57166
 
+def find_key_in_list(key, dictionary_list):
+    for dictionary in dictionary_list:
+        if key in dictionary:
+            return dictionary[key]
+    return None
+
 def main():
     session = n2yo.N2YO(api_key, lat, long, alt)
     passes = session.get_radio_passes(METEOR_M2_3_ID, 3, lat, long, alt)
 
     print(passes)
-    print(len(passes))
     print("\n\n")
+
 
     for i in range(0, len(passes)):
         str_passes = json.dumps(passes[i])
         json_passes = json.loads(str_passes)
-        
-        # Error: Doesnt find the key when present
-        if 'startUCT' in json_passes:
-            print("Time found!")
+
+        start_utc = find_key_in_list("startUTC", json_passes)
+        end_utc   = find_key_in_list("endUTC", json_passes)
+
+        if start_utc is not None:
+            print(f"Value for startUTC: {start_utc}")
         else:
-            print("No time found!")
+            print(f"startUTC not given")
+
+        if end_utc is not None:
+            print(f"Value for endUTC: {end_utc}")
+        else:
+            print("endUTC not given")
 
 if __name__ == "__main__":
     main()
