@@ -15,7 +15,7 @@ def find_key_in_list(key, dictionary_list):
     return None  # Key not found in any dictionary
 
 def utc_to_local(utc):
-    local_time = time.gmtime(utc)
+    local_time = time.localtime(utc)
     return time.strftime('%H:%M', local_time)
 
 def main():
