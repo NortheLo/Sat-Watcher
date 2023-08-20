@@ -18,6 +18,12 @@ def utc_to_local(utc):
     local_time = time.localtime(utc)
     return time.strftime('%H:%M', local_time)
 
+def call_satdump(t_start, t_rec): 
+    cmd =  ('satdump record MeteorM2-3 --source hackrf --samplerate 2000000'
+                '--frequency 137100000 --baseband_format f32 --timeout' + str(t_rec) + ' | at ' + str(t_start))
+    os.system(cmd)
+
+
 def main():
     session = n2yo.N2YO(api_key, lat, long, alt)
     passes = session.get_radio_passes(METEOR_M2_3_ID, 3, lat, long, alt)
@@ -33,15 +39,13 @@ def main():
         start_utc = find_key_in_list("startUTC", json_passes)
         end_utc   = find_key_in_list("endUTC", json_passes)
 
-        if start_utc is not None:
+        if start_utc and end_utc is not None:
             print(f"Value for startUTC: {start_utc} {utc_to_local(start_utc)}")
-        else:
-            print(f"startUTC not given")
-
-        if end_utc is not None:
             print(f"Value for endUTC: {end_utc} {utc_to_local(end_utc)}")
+            # Not using this function until the times matches with the N2YO Website
+            #call_satdump(utc_to_local(start_utc), end_utc - start_utc)
         else:
-            print("endUTC not given")
+            print("No start and end time found")
 
 if __name__ == "__main__":
     main()
