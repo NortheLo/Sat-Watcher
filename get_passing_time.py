@@ -12,7 +12,11 @@ def find_key_in_list(key, dictionary_list):
     for dictionary in dictionary_list:
         if key in dictionary:
             return dictionary[key]
-    return None
+    return None  # Key not found in any dictionary
+
+def utc_to_local(utc):
+    local_time = time.gmtime(utc)
+    return time.strftime('%H:%M', local_time)
 
 def main():
     session = n2yo.N2YO(api_key, lat, long, alt)
@@ -30,12 +34,12 @@ def main():
         end_utc   = find_key_in_list("endUTC", json_passes)
 
         if start_utc is not None:
-            print(f"Value for startUTC: {start_utc}")
+            print(f"Value for startUTC: {start_utc} {utc_to_local(start_utc)}")
         else:
             print(f"startUTC not given")
 
         if end_utc is not None:
-            print(f"Value for endUTC: {end_utc}")
+            print(f"Value for endUTC: {end_utc} {utc_to_local(end_utc)}")
         else:
             print("endUTC not given")
 
