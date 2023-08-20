@@ -1,5 +1,7 @@
-from n2yo import n2yo
 import json
+import time
+import os
+from n2yo import n2yo
 
 api_key = ""
 lat = 0.0
